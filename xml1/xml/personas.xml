@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<personas>
+    <persona>
+        <id>1</id>
+        <nombre>Pepe</nombre>
+    </persona>
+    <persona>
+        <id>2</id>
+        <nombre>Pedro</nombre>
+    </persona>
+    <persona>
+        <id>3</id>
+        <nombre>Paco</nombre>
+    </persona>
+</personas>
