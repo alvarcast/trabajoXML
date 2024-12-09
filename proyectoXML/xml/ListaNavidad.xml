@@ -1,0 +1,42 @@
+<listaNavidad presupuesto="500">
+    <persona idp="1" alias="Mamá" presupuesto="120">
+        <regalo idr="1">
+            <precio>20</precio>
+            <item>Chaqueta</item>
+        </regalo>
+        <regalo idr="2">
+            <precio>100</precio>
+            <item>Zapatillas</item>
+        </regalo>
+    </persona>
+    <persona idp="2" alias="Papá" presupuesto="70">
+        <regalo idr="1">
+            <precio>70</precio>
+            <item>Cascos</item>
+        </regalo>
+    </persona>
+    <persona idp="3" alias="Abuela" presupuesto="90">
+        <regalo idr="1">
+            <precio>50</precio>
+            <item>Videojuego</item>
+        </regalo>
+        <regalo idr="2">
+            <precio>40</precio>
+            <item>Mando xbox</item>
+        </regalo>
+    </persona>
+    <persona idp="4" alias="Abuelo" presupuesto="200">
+        <regalo idr="1">
+            <precio>130</precio>
+            <item>Monitor</item>
+        </regalo>
+        <regalo idr="2">
+            <precio>40</precio>
+            <item>Disco SSD</item>
+        </regalo>
+        <regalo idr="3">
+            <precio>30</precio>
+            <item>Batería</item>
+        </regalo>
+    </persona>
+</listaNavidad>

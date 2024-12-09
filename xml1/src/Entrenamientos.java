@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -94,7 +95,7 @@ public class Entrenamientos {
         File f;
 
         try {
-            f = new File("xml/entrenamientosCopy.xml");
+            f = new File("xml1/xml/entrenamientosCopy.xml");
             factory = DocumentBuilderFactory.newInstance();
             builder = factory.newDocumentBuilder();
             document = builder.newDocument();
@@ -102,7 +103,7 @@ public class Entrenamientos {
             Element root = document.createElement("entrenamientos");
 
             // Crear un nuevo elemento "entrenamiento"
-            for (Entrenamiento entrenamiento : entrenamientos.getEntrenamientoArrayList()){
+            for (Entrenamiento entrenamiento : entrenamientos.getEntrenamientoArrayList()) {
                 Element nuevoEntrenamiento = document.createElement("entrenamiento");
                 nuevoEntrenamiento.setAttribute("id", String.valueOf(entrenamiento.getId()));
 
@@ -124,9 +125,14 @@ public class Entrenamientos {
 
             document.appendChild(root);
 
-            // Guardar los cambios en el archivo XML
+            // Guardar los cambios en el archivo XML con formato de indentación
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
+
+            // Configurar la transformación para que use la indentación
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(f);
             transformer.transform(source, result);
@@ -135,4 +141,5 @@ public class Entrenamientos {
             e.printStackTrace();
         }
     }
+
 }
