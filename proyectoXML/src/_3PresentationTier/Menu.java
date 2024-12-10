@@ -1,7 +1,7 @@
-package PT;
+package _3PresentationTier;
 
-import _BT.CRUD;
-import __DT.ListaPersonas;
+import _2BusinessTier.CRUD;
+import _1DataTier.ListaPersonas;
 
 import java.io.FileNotFoundException;
 

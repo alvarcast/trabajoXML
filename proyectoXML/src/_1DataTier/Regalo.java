@@ -1,4 +1,4 @@
-package __DT;
+package _1DataTier;
 
 public class Regalo {
 

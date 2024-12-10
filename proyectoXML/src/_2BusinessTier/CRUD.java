@@ -1,10 +1,10 @@
-package _BT;
+package _2BusinessTier;
 
-import PT.Scan;
-import __DT.ListaPersonas;
-import __DT.ListaRegalos;
-import __DT.Persona;
-import __DT.Regalo;
+import _3PresentationTier.Scan;
+import _1DataTier.ListaPersonas;
+import _1DataTier.ListaRegalos;
+import _1DataTier.Persona;
+import _1DataTier.Regalo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,11 +14,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,7 +22,7 @@ public class CRUD {
 
     private static final String path = "proyectoXML/xml/ListaNavidad.xml";
 
-    public static void create(ListaPersonas lp, int type){
+    public static void createZero(ListaPersonas lp, int type){
 
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
@@ -35,9 +30,6 @@ public class CRUD {
         File f;
 
         Element rootElement;
-
-        // ¿Es mejor tener todas las variables arriba o mejor solo debajo del type que se vaya a usar?
-        // ¿Hay menuCtrl?
 
         double presupuesto_total;
 
@@ -79,13 +71,13 @@ public class CRUD {
     }
 
     public static ListaPersonas read() throws FileNotFoundException{
-        ListaPersonas lp = null;
-        ListaRegalos lr;
+        ListaPersonas listaPersonas = null;
+        ListaRegalos listaRegalos;
 
-        Persona p;
-        Regalo r;
+        Persona persona;
+        Regalo regalo;
 
-        File f;
+        File file;
 
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
@@ -112,15 +104,15 @@ public class CRUD {
         String item;
 
         try {
-            f = new File(path);
+            file = new File(path);
             factory = DocumentBuilderFactory.newInstance();
             builder = factory.newDocumentBuilder();
-            document = builder.parse(f);
+            document = builder.parse(file);
 
             rootElement = document.getDocumentElement(); // Esto te da el nodo raíz, <listaNavidad>
             presupuesto_total = Double.parseDouble(rootElement.getAttribute("presupuesto"));
 
-            lp = new ListaPersonas(presupuesto_total);
+            listaPersonas = new ListaPersonas(presupuesto_total);
 
             nodeListP = document.getElementsByTagName("persona");
 
@@ -134,7 +126,7 @@ public class CRUD {
                     alias = elementP.getAttribute("alias");
                     presupuesto = Double.parseDouble(elementP.getAttribute("presupuesto"));
 
-                    lr = new ListaRegalos();
+                    listaRegalos = new ListaRegalos();
 
                     nodeListR = elementP.getElementsByTagName("regalo");
 
@@ -148,29 +140,30 @@ public class CRUD {
                             precio = Double.parseDouble(elementR.getElementsByTagName("precio").item(0).getTextContent());
                             item = elementR.getElementsByTagName("item").item(0).getTextContent();
 
-                            r = new Regalo(idr, precio, item);
+                            regalo = new Regalo(idr, precio, item);
 
-                            lr.add(r);
+                            listaRegalos.add(regalo);
                         }
                     }
 
-                    p = new Persona(idp, alias, presupuesto, lr);
+                    persona = new Persona(idp, alias, presupuesto, listaRegalos);
 
-                    lp.add(p);
+                    listaPersonas.add(persona);
                 }
             }
 
-            for(Persona persona : lp.getListaPersonas()){
-                System.out.println("Presupuesto total: " + lp.getPresupuesto());
+            // Impresión para comprobar resultados
+            for(Persona p : listaPersonas.getListaPersonas()){
+                System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
                 System.out.println("=========================================");
-                System.out.println("ID Persona: " + persona.getIdp());
-                System.out.println("Alias: " + persona.getAlias());
-                System.out.println("Presupuesto: " + persona.getPresupuesto());
+                System.out.println("ID Persona: " + p.getIdp());
+                System.out.println("Alias: " + p.getAlias());
+                System.out.println("Presupuesto: " + p.getPresupuesto());
                 System.out.println("Regalos:");
-                for (Regalo regalo : persona.getListaRegalos().getListaRegalos()){
-                    System.out.println("ID Regalo: " + regalo.getIdr());
-                    System.out.println("Precio: " + regalo.getPrecio());
-                    System.out.println("Item: " + regalo.getItem());
+                for (Regalo r : p.getListaRegalos().getListaRegalos()){
+                    System.out.println("ID Regalo: " + r.getIdr());
+                    System.out.println("Precio: " + r.getPrecio());
+                    System.out.println("Item: " + r.getItem());
                 }
                 System.out.println(" ");
             }
@@ -179,10 +172,10 @@ public class CRUD {
             e.printStackTrace();
         }
 
-        if (lp == null) {
+        if (listaPersonas == null) {
             throw new FileNotFoundException();
         } else {
-            return lp;
+            return listaPersonas;
         }
     }
 }

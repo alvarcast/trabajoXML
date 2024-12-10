@@ -1,4 +1,4 @@
-package _BT;
+package _2BusinessTier;
 
 public class GetStats {
 

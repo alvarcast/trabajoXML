@@ -1,6 +1,6 @@
-package _BT;
+package _2BusinessTier;
 
-import PT.Menu;
+import _3PresentationTier.Menu;
 
 import java.io.FileNotFoundException;
 
