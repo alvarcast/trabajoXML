@@ -1,4 +1,5 @@
-<listaNavidad presupuesto="500">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<listaRegalos presupuesto_total="120.0">
     <persona idp="1" alias="Mamá" presupuesto="120">
         <regalo idr="1">
             <precio>20</precio>
@@ -39,4 +40,4 @@
             <item>Batería</item>
         </regalo>
     </persona>
-</listaNavidad>
+</listaRegalos>

@@ -1,6 +1,5 @@
 package _2BusinessTier;
 
-import _3PresentationTier.Scan;
 import _1DataTier.ListaPersonas;
 import _1DataTier.ListaRegalos;
 import _1DataTier.Persona;
@@ -14,6 +13,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,24 +26,18 @@ public class CRUD {
 
     private static final String path = "proyectoXML/xml/ListaNavidad.xml";
 
-    public static void createZero(ListaPersonas lp, int type){
-
+    public static void newChristmasList(ListaPersonas listaPersonas) {
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
         Document document;
         File f;
 
-        Element rootElement;
+        Element root;
+        Element newPersona;
+        Element newRegalo = null;
 
-        double presupuesto_total;
-
-        int idp;
-        String alias;
-        double presupuesto;
-
-        int idr;
-        double precio;
-        String item;
+        Element newItem;
+        Element newPrecio;
 
         try {
             f = new File(path);
@@ -47,30 +45,55 @@ public class CRUD {
             builder = factory.newDocumentBuilder();
             document = builder.newDocument();
 
-            rootElement = document.getDocumentElement();
+            root = document.createElement("listaRegalos");
+            root.setAttribute("presupuesto_total", String.valueOf(listaPersonas.getPresupuesto()));
 
-            if (rootElement == null) {
-                presupuesto_total = Scan.scanDouble("Presupuesto total: ");
-                // De cero...
-            } else if (type == 1) {
-                alias = Scan.scanText("Alias: ");
-                presupuesto = Scan.scanDouble("Presupuesto: ");
-                // Añadir persona...
-            } else if (type == 2) {
-                item = Scan.scanText("Item: ");
-                precio = Scan.scanDouble("Precio: ");
-                // Añadir regalo...
+            // Crear un nuevo elemento "entrenamiento"
+            for (Persona persona : listaPersonas.getListaPersonas()) {
+                newPersona = document.createElement("persona");
+                newPersona.setAttribute("idp", String.valueOf(persona.getIdp()));
+                newPersona.setAttribute("alias", persona.getAlias());
+                newPersona.setAttribute("presupuesto", String.valueOf(persona.getPresupuesto()));
+
+                for (Regalo regalo : persona.getListaRegalos().getListaRegalos()) {
+                    newRegalo = document.createElement("regalo");
+                    newRegalo.setAttribute("idr", String.valueOf(regalo.getIdr()));
+
+                    newItem = document.createElement("item");
+                    newItem.setTextContent(regalo.getItem());
+
+                    newPrecio = document.createElement("precio");
+                    newPrecio.setTextContent(String.valueOf(regalo.getPrecio()));
+
+                    newRegalo.appendChild(newItem);
+                    newRegalo.appendChild(newPrecio);
+
+                    newPersona.appendChild(newRegalo);
+                }
+
+                root.appendChild(newPersona);
             }
 
-            // Check entrenamientos
+            document.appendChild(root);
+
+            // Guardar los cambios en el archivo XML con formato de indentación
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            // Configurar la transformación para que use la indentación
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(f);
+            transformer.transform(source, result);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    public static ListaPersonas read() throws FileNotFoundException{
+    public static ListaPersonas read() throws IOException {
         ListaPersonas listaPersonas = null;
         ListaRegalos listaRegalos;
 
@@ -89,7 +112,7 @@ public class CRUD {
         Node nodeP;
         Node nodeR;
 
-        Element rootElement;
+        Element root;
         Element elementP;
         Element elementR;
 
@@ -109,73 +132,75 @@ public class CRUD {
             builder = factory.newDocumentBuilder();
             document = builder.parse(file);
 
-            rootElement = document.getDocumentElement(); // Esto te da el nodo raíz, <listaNavidad>
-            presupuesto_total = Double.parseDouble(rootElement.getAttribute("presupuesto"));
-
-            listaPersonas = new ListaPersonas(presupuesto_total);
-
             nodeListP = document.getElementsByTagName("persona");
 
-            for (int i = 0; i < nodeListP.getLength(); i++) {
-                nodeP = nodeListP.item(i);
+            if (nodeListP.getLength() > 0) {
+                root = document.getDocumentElement(); // Esto te da el nodo raíz, <listaNavidad>
 
-                if (nodeP.getNodeType() == Node.ELEMENT_NODE) {
-                    elementP = (Element) nodeP;
+                presupuesto_total = Double.parseDouble(root.getAttribute("presupuesto_total"));
 
-                    idp = Integer.parseInt(elementP.getAttribute("idp"));
-                    alias = elementP.getAttribute("alias");
-                    presupuesto = Double.parseDouble(elementP.getAttribute("presupuesto"));
+                listaPersonas = new ListaPersonas(presupuesto_total);
 
-                    listaRegalos = new ListaRegalos();
+                for (int i = 0; i < nodeListP.getLength(); i++) {
+                    nodeP = nodeListP.item(i);
 
-                    nodeListR = elementP.getElementsByTagName("regalo");
+                    if (nodeP.getNodeType() == Node.ELEMENT_NODE) {
+                        elementP = (Element) nodeP;
 
-                    for (int j = 0; j < nodeListR.getLength(); j++) {
-                        nodeR = nodeListR.item(j);
+                        idp = Integer.parseInt(elementP.getAttribute("idp"));
+                        alias = elementP.getAttribute("alias");
+                        presupuesto = Double.parseDouble(elementP.getAttribute("presupuesto"));
 
-                        if (nodeR.getNodeType() == Node.ELEMENT_NODE) {
-                            elementR = (Element) nodeR;
+                        listaRegalos = new ListaRegalos();
 
-                            idr = Integer.parseInt(elementR.getAttribute("idr"));
-                            precio = Double.parseDouble(elementR.getElementsByTagName("precio").item(0).getTextContent());
-                            item = elementR.getElementsByTagName("item").item(0).getTextContent();
+                        nodeListR = elementP.getElementsByTagName("regalo");
 
-                            regalo = new Regalo(idr, precio, item);
+                        for (int j = 0; j < nodeListR.getLength(); j++) {
+                            nodeR = nodeListR.item(j);
 
-                            listaRegalos.add(regalo);
+                            if (nodeR.getNodeType() == Node.ELEMENT_NODE) {
+                                elementR = (Element) nodeR;
+
+                                idr = Integer.parseInt(elementR.getAttribute("idr"));
+                                precio = Double.parseDouble(elementR.getElementsByTagName("precio").item(0).getTextContent());
+                                item = elementR.getElementsByTagName("item").item(0).getTextContent();
+
+                                regalo = new Regalo(idr, precio, item);
+
+                                listaRegalos.add(regalo);
+                            }
                         }
+
+                        persona = new Persona(idp, alias, presupuesto, listaRegalos);
+                        listaPersonas.add(persona);
                     }
-
-                    persona = new Persona(idp, alias, presupuesto, listaRegalos);
-
-                    listaPersonas.add(persona);
                 }
             }
 
-            // Impresión para comprobar resultados
-            for(Persona p : listaPersonas.getListaPersonas()){
+            if (listaPersonas != null) {
+                System.out.println("=========================================");
                 System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
                 System.out.println("=========================================");
-                System.out.println("ID Persona: " + p.getIdp());
-                System.out.println("Alias: " + p.getAlias());
-                System.out.println("Presupuesto: " + p.getPresupuesto());
-                System.out.println("Regalos:");
-                for (Regalo r : p.getListaRegalos().getListaRegalos()){
-                    System.out.println("ID Regalo: " + r.getIdr());
-                    System.out.println("Precio: " + r.getPrecio());
-                    System.out.println("Item: " + r.getItem());
-                }
                 System.out.println(" ");
+
+                for(Persona p : listaPersonas.getListaPersonas()){
+                    System.out.println("ID Persona: " + p.getIdp());
+                    System.out.println("Alias: " + p.getAlias());
+                    System.out.println("Presupuesto: " + p.getPresupuesto());
+                    System.out.println("Regalos:");
+                    for (Regalo r : p.getListaRegalos().getListaRegalos()){
+                        System.out.println("ID Regalo: " + r.getIdr());
+                        System.out.println("Precio: " + r.getPrecio());
+                        System.out.println("Item: " + r.getItem());
+                    }
+                    System.out.println(" ");
+                }
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
 
-        if (listaPersonas == null) {
-            throw new FileNotFoundException();
-        } else {
-            return listaPersonas;
-        }
+        return listaPersonas;
     }
 }
