@@ -44,7 +44,7 @@ public class Scan {
             try {
                 data = scn.nextInt();
                 if (data < min || data > max){
-                    System.err.println("Por favor, introduzca un valor positivo");
+                    System.err.println("Por favor, introduzca un valor dentro del rango");
                 } else {
                     out = true;
                 }

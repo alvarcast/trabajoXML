@@ -210,7 +210,7 @@ public class CRUD {
             result = new StreamResult(file);
             transformer.transform(source, result);
 
-            System.out.println(">>> Persona y regalos añadidos correctamente <<<");
+            System.out.println(">>> Cambios escritos correctamente <<<");
             System.out.println(" ");
 
         } catch (Exception e) {

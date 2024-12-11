@@ -84,9 +84,9 @@ public class MenuCtrl {
         countP = Scan.scanInt("¿Cuántas personas quieres agregar?");
 
         for (int i = 0; i < countP; i++) {
-            System.out.println("=== Persona " + (i + 1) + " ===");
+            System.out.println("=== Nueva persona " + (i + 1) + " ===");
 
-            idp = i + 1;
+            idp = listaPersonas.getListaPersonas().getLast().getIdp() + 1;
             alias = Scan.scanText("Alias: ");
             presupuesto = Scan.scanDouble("Presupuesto para " + alias + ":");
 
@@ -126,7 +126,7 @@ public class MenuCtrl {
         countR = Scan.scanInt("¿Cuántas regalos quieres agregar a " + alias);
 
         for (int i = 0; i < countR; i++){
-            System.out.println("=== Regalo " + (i + 1) + " ===");
+            System.out.println("=== Nuevo regalo " + (i + 1) + " ===");
 
             idr = i + 1;
             item = Scan.scanText("Item: ");
@@ -143,23 +143,26 @@ public class MenuCtrl {
     }
 
     public static void addRegalo (ListaPersonas listaPersonas) {
-        ListaRegalos listaRegalos = new ListaRegalos();
-        Regalo regalo;
-        Persona persona;
+        ListaRegalos listaRegalos;
 
         int opcion;
 
-        String alias;
-
-        alias = Scan.scanText("¿A que persona quieres añadir un regalo?");
-        opcion = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size());
-
         for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            System.out.println(i + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
+            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
         }
+
+        System.out.println(" ");
+        System.out.println("¿A qué persona quieres añadir un regalo?");
+
+        opcion = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
 
         listaRegalos = createNewRegalo(listaPersonas.getListaPersonas().get(opcion).getAlias());
 
-        // 1 o varios regalos???
+        for (Regalo regalo : listaRegalos.getListaRegalos()){
+            regalo.setIdr(listaPersonas.getListaPersonas().get(opcion).getListaRegalos().getListaRegalos().getLast().getIdr() + 1);
+            listaPersonas.getListaPersonas().get(opcion).getListaRegalos().add(regalo);
+        }
+
+        CRUD.write(listaPersonas);
     }
 }

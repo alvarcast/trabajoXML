@@ -7,6 +7,8 @@ public class ListaPersonas {
     private final ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
     private double presupuesto;
 
+    public ListaPersonas () {}
+
     public ListaPersonas (double presupuesto) {
         this.presupuesto = presupuesto;
     }

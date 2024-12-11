@@ -2,6 +2,7 @@ package _3PresentationTier;
 
 import _2BusinessTier.CRUD;
 import _1DataTier.ListaPersonas;
+import _2BusinessTier.GetStats;
 import _2BusinessTier.MenuCtrl;
 
 import java.io.IOException;
@@ -27,14 +28,17 @@ public class Menu {
         }
 
         do {
+            GetStats.checkPresupuesto(listaPersonas);
+
             opcion = Scan.scanInt("""
                 ¿Qué quieres hacer?
                 1. Añadir algo
                 2. Editar algo
                 3. Borrar algo
-                4. Ver estadísticas del xml
-                5. Salir
-                """, 1, 5
+                4. Mostrar lista
+                5. Ver estadísticas del xml
+                6. Salir
+                """, 1, 6
             );
 
             switch (opcion) {
@@ -42,9 +46,10 @@ public class Menu {
                 case 2 -> {}
                 case 3 -> {}
                 case 4 -> {}
-                case 5 -> System.out.println("Saliendo del programa...");
+                case 5 -> Printer.printList(listaPersonas);
+                case 6 -> System.out.println("Saliendo del programa...");
             }
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     public static void addMenu(ListaPersonas listaPersonas){
