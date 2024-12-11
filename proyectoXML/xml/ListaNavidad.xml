@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<listaRegalos presupuesto_total="120.0">
-    <persona idp="1" alias="Mamá" presupuesto="120">
+<listaRegalos presupuesto_total="500.0">
+    <persona alias="Mamá" idp="1" presupuesto="120.0">
         <regalo idr="1">
-            <precio>20</precio>
             <item>Chaqueta</item>
+            <precio>20.0</precio>
         </regalo>
         <regalo idr="2">
-            <precio>100</precio>
             <item>Zapatillas</item>
+            <precio>100.0</precio>
         </regalo>
     </persona>
-    <persona idp="2" alias="Papá" presupuesto="70">
+    <persona alias="Papá" idp="2" presupuesto="70.0">
         <regalo idr="1">
-            <precio>70</precio>
             <item>Cascos</item>
+            <precio>70.0</precio>
         </regalo>
     </persona>
-    <persona idp="3" alias="Abuela" presupuesto="90">
+    <persona alias="Abuela" idp="3" presupuesto="90.0">
         <regalo idr="1">
-            <precio>50</precio>
             <item>Videojuego</item>
+            <precio>50.0</precio>
         </regalo>
         <regalo idr="2">
-            <precio>40</precio>
             <item>Mando xbox</item>
+            <precio>40.0</precio>
         </regalo>
     </persona>
-    <persona idp="4" alias="Abuelo" presupuesto="200">
+    <persona alias="Abuelo" idp="4" presupuesto="200.0">
         <regalo idr="1">
-            <precio>130</precio>
             <item>Monitor</item>
+            <precio>130.0</precio>
         </regalo>
         <regalo idr="2">
-            <precio>40</precio>
             <item>Disco SSD</item>
+            <precio>40.0</precio>
         </regalo>
         <regalo idr="3">
-            <precio>30</precio>
             <item>Batería</item>
+            <precio>30.0</precio>
         </regalo>
     </persona>
+    <persona alias="Paquito" idp="1" presupuesto="300.0">
+        <regalo idr="1">
+            <item>VR</item>
+            <precio>300.0</precio>
+        </regalo>
+    </persona>
+    <persona alias="Emilio" idp="1" presupuesto="10.0"/>
+    <persona alias="Tia paqui" idp="1" presupuesto="100.0"/>
 </listaRegalos>

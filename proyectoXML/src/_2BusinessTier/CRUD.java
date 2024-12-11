@@ -19,79 +19,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class CRUD {
 
     private static final String path = "proyectoXML/xml/ListaNavidad.xml";
-
-    public static void newChristmasList(ListaPersonas listaPersonas) {
-        DocumentBuilderFactory factory;
-        DocumentBuilder builder;
-        Document document;
-        File f;
-
-        Element root;
-        Element newPersona;
-        Element newRegalo = null;
-
-        Element newItem;
-        Element newPrecio;
-
-        try {
-            f = new File(path);
-            factory = DocumentBuilderFactory.newInstance();
-            builder = factory.newDocumentBuilder();
-            document = builder.newDocument();
-
-            root = document.createElement("listaRegalos");
-            root.setAttribute("presupuesto_total", String.valueOf(listaPersonas.getPresupuesto()));
-
-            // Crear un nuevo elemento "entrenamiento"
-            for (Persona persona : listaPersonas.getListaPersonas()) {
-                newPersona = document.createElement("persona");
-                newPersona.setAttribute("idp", String.valueOf(persona.getIdp()));
-                newPersona.setAttribute("alias", persona.getAlias());
-                newPersona.setAttribute("presupuesto", String.valueOf(persona.getPresupuesto()));
-
-                for (Regalo regalo : persona.getListaRegalos().getListaRegalos()) {
-                    newRegalo = document.createElement("regalo");
-                    newRegalo.setAttribute("idr", String.valueOf(regalo.getIdr()));
-
-                    newItem = document.createElement("item");
-                    newItem.setTextContent(regalo.getItem());
-
-                    newPrecio = document.createElement("precio");
-                    newPrecio.setTextContent(String.valueOf(regalo.getPrecio()));
-
-                    newRegalo.appendChild(newItem);
-                    newRegalo.appendChild(newPrecio);
-
-                    newPersona.appendChild(newRegalo);
-                }
-
-                root.appendChild(newPersona);
-            }
-
-            document.appendChild(root);
-
-            // Guardar los cambios en el archivo XML con formato de indentación
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-
-            // Configurar la transformación para que use la indentación
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(f);
-            transformer.transform(source, result);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static ListaPersonas read() throws IOException {
         ListaPersonas listaPersonas = null;
@@ -177,6 +109,7 @@ public class CRUD {
                 }
             }
 
+            /*
             if (listaPersonas != null) {
                 System.out.println("=========================================");
                 System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
@@ -196,11 +129,92 @@ public class CRUD {
                     System.out.println(" ");
                 }
             }
+             */
 
         } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
 
         return listaPersonas;
+    }
+
+    public static void write (ListaPersonas listaPersonas) {
+        DocumentBuilderFactory factory;
+        DocumentBuilder builder;
+        Document document;
+
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+
+        DOMSource source;
+        StreamResult result;
+
+        File file;
+
+        Element root;
+        Element newPersona;
+        Element newRegalo;
+
+        Element newItem;
+        Element newPrecio;
+
+        try {
+            file = new File(path);
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+            document = builder.newDocument();
+
+            root = document.createElement("listaRegalos");
+
+
+            root.setAttribute("presupuesto_total", String.valueOf(listaPersonas.getPresupuesto()));
+
+
+            // Crear un nuevo elemento "persona"
+            for (Persona persona : listaPersonas.getListaPersonas()) {
+                newPersona = document.createElement("persona");
+                newPersona.setAttribute("idp", String.valueOf(persona.getIdp()));
+                newPersona.setAttribute("alias", persona.getAlias());
+                newPersona.setAttribute("presupuesto", String.valueOf(persona.getPresupuesto()));
+
+                for (Regalo regalo : persona.getListaRegalos().getListaRegalos()) {
+                    newRegalo = document.createElement("regalo");
+                    newRegalo.setAttribute("idr", String.valueOf(regalo.getIdr()));
+
+                    newItem = document.createElement("item");
+                    newItem.setTextContent(regalo.getItem());
+
+                    newPrecio = document.createElement("precio");
+                    newPrecio.setTextContent(String.valueOf(regalo.getPrecio()));
+
+                    newRegalo.appendChild(newItem);
+                    newRegalo.appendChild(newPrecio);
+
+                    newPersona.appendChild(newRegalo);
+                }
+
+                root.appendChild(newPersona);
+            }
+
+            document.appendChild(root);
+
+            // Guardar los cambios en el archivo XML con formato de indentación
+            transformerFactory = TransformerFactory.newInstance();
+            transformer = transformerFactory.newTransformer();
+
+            // Configurar la transformación para que use la indentación
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+            source = new DOMSource(document);
+            result = new StreamResult(file);
+            transformer.transform(source, result);
+
+            System.out.println(">>> Persona y regalos añadidos correctamente <<<");
+            System.out.println(" ");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

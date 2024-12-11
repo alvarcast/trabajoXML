@@ -63,7 +63,7 @@ public class MenuCtrl {
             listaPersonas.add(persona);
         }
 
-        CRUD.newChristmasList(listaPersonas);
+        CRUD.write(listaPersonas);
 
         return listaPersonas;
     }
@@ -84,8 +84,7 @@ public class MenuCtrl {
         countP = Scan.scanInt("¿Cuántas personas quieres agregar?");
 
         for (int i = 0; i < countP; i++) {
-            System.out.println("Persona " + (i + 1) + ":");
-            System.out.println(" ");
+            System.out.println("=== Persona " + (i + 1) + " ===");
 
             idp = i + 1;
             alias = Scan.scanText("Alias: ");
@@ -103,16 +102,64 @@ public class MenuCtrl {
             } else {
                 System.out.printf("No se añadiran regalos a %s", alias);
                 listaRegalos = new ListaRegalos();
+                System.out.println(" ");
             }
 
             persona = new Persona(idp, alias, presupuesto, listaRegalos);
             listaPersonas.add(persona);
-
-            System.out.println(" ");
         }
+
+        CRUD.write(listaPersonas);
     }
 
     public static ListaRegalos createNewRegalo(String alias){
-        return null;
+        ListaRegalos listaRegalos = new ListaRegalos();
+
+        Regalo regalo;
+
+        int idr;
+        double precio;
+        String item;
+
+        int countR;
+
+        countR = Scan.scanInt("¿Cuántas regalos quieres agregar a " + alias);
+
+        for (int i = 0; i < countR; i++){
+            System.out.println("=== Regalo " + (i + 1) + " ===");
+
+            idr = i + 1;
+            item = Scan.scanText("Item: ");
+            precio = Scan.scanDouble("Precio: ");
+
+            regalo = new Regalo(idr, precio, item);
+
+            listaRegalos.add(regalo);
+        }
+
+        System.out.println(" ");
+
+        return listaRegalos;
+    }
+
+    public static void addRegalo (ListaPersonas listaPersonas) {
+        ListaRegalos listaRegalos = new ListaRegalos();
+        Regalo regalo;
+        Persona persona;
+
+        int opcion;
+
+        String alias;
+
+        alias = Scan.scanText("¿A que persona quieres añadir un regalo?");
+        opcion = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size());
+
+        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
+            System.out.println(i + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
+        }
+
+        listaRegalos = createNewRegalo(listaPersonas.getListaPersonas().get(opcion).getAlias());
+
+        // 1 o varios regalos???
     }
 }
