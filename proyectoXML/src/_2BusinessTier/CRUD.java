@@ -109,28 +109,6 @@ public class CRUD {
                 }
             }
 
-            /*
-            if (listaPersonas != null) {
-                System.out.println("=========================================");
-                System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
-                System.out.println("=========================================");
-                System.out.println(" ");
-
-                for(Persona p : listaPersonas.getListaPersonas()){
-                    System.out.println("ID Persona: " + p.getIdp());
-                    System.out.println("Alias: " + p.getAlias());
-                    System.out.println("Presupuesto: " + p.getPresupuesto());
-                    System.out.println("Regalos:");
-                    for (Regalo r : p.getListaRegalos().getListaRegalos()){
-                        System.out.println("ID Regalo: " + r.getIdr());
-                        System.out.println("Precio: " + r.getPrecio());
-                        System.out.println("Item: " + r.getItem());
-                    }
-                    System.out.println(" ");
-                }
-            }
-             */
-
         } catch (ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }

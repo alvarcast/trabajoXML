@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<listaRegalos presupuesto_total="1000.0">
-    <persona alias="Mamá" idp="1" presupuesto="120.0">
+<listaRegalos presupuesto_total="1500.0">
+    <persona alias="Ana" idp="1" presupuesto="150.0">
         <regalo idr="1">
-            <item>Chaqueta</item>
-            <precio>20.0</precio>
+            <item>Libro de cocina</item>
+            <precio>50.0</precio>
         </regalo>
         <regalo idr="2">
-            <item>Zapatillas</item>
+            <item>Set de cuchillos</item>
             <precio>100.0</precio>
         </regalo>
-    </persona>
-    <persona alias="Papá" idp="2" presupuesto="70.0">
         <regalo idr="1">
-            <item>Cascos</item>
-            <precio>70.0</precio>
-        </regalo>
-    </persona>
-    <persona alias="Abuela" idp="3" presupuesto="100.0">
-        <regalo idr="1">
-            <item>Videojuego</item>
+            <item>Mochila</item>
             <precio>20.0</precio>
         </regalo>
+    </persona>
+    <persona alias="Luis" idp="2" presupuesto="200.0">
+        <regalo idr="1">
+            <item>Reloj inteligente</item>
+            <precio>150.0</precio>
+        </regalo>
         <regalo idr="2">
-            <item>Mando xbox</item>
+            <item>Cinturón de cuero</item>
+            <precio>50.0</precio>
+        </regalo>
+    </persona>
+    <persona alias="Sofía" idp="3" presupuesto="120.0">
+        <regalo idr="1">
+            <item>Pulsera</item>
             <precio>40.0</precio>
         </regalo>
-        <regalo idr="3">
-            <item>Coca-cola</item>
-            <precio>30.1</precio>
+        <regalo idr="2">
+            <item>Bolso</item>
+            <precio>80.0</precio>
         </regalo>
     </persona>
-    <persona alias="Abuelito" idp="4" presupuesto="130.0">
+    <persona alias="Carlos" idp="4" presupuesto="180.0">
         <regalo idr="1">
-            <item>Monitor</item>
-            <precio>130.0</precio>
+            <item>Audífonos</item>
+            <precio>100.0</precio>
         </regalo>
         <regalo idr="2">
-            <item>Disco SSD</item>
-            <precio>90.0</precio>
-        </regalo>
-        <regalo idr="3">
-            <item>Batería</item>
-            <precio>30.0</precio>
+            <item>Teclado mecánico</item>
+            <precio>80.0</precio>
         </regalo>
     </persona>
-    <persona alias="Paquito" idp="5" presupuesto="200.0">
+    <persona alias="María" idp="5" presupuesto="200.0">
         <regalo idr="1">
-            <item>VR</item>
-            <precio>100.0</precio>
+            <item>Perfume</item>
+            <precio>120.0</precio>
+        </regalo>
+        <regalo idr="2">
+            <item>Agenda 2024</item>
+            <precio>80.0</precio>
+        </regalo>
+    </persona>
+    <persona alias="Javier" idp="6" presupuesto="300.0">
+        <regalo idr="1">
+            <item>Consola portátil</item>
+            <precio>250.0</precio>
+        </regalo>
+        <regalo idr="2">
+            <item>Funda de consola</item>
+            <precio>50.0</precio>
         </regalo>
     </persona>
 </listaRegalos>

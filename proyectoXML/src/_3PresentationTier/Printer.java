@@ -8,20 +8,48 @@ public class Printer {
 
     public static void printList(ListaPersonas listaPersonas) {
 
-        System.out.println("=========================================");
-        System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
-        System.out.println("=========================================");
-        System.out.println(" ");
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+            System.out.println("=========================================");
+            System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
+            System.out.println("=========================================");
+            System.out.println(" ");
 
-        for(Persona persona : listaPersonas.getListaPersonas()){
-            System.out.println("ID Persona: " + persona.getIdp());
-            System.out.println("Alias: " + persona.getAlias());
-            System.out.printf("Presupuesto: %.2f \n", persona.getPresupuesto());
-            System.out.println("Regalos:");
-            for (Regalo regalo : persona.getListaRegalos().getListaRegalos()){
-                System.out.println("ID Regalo: " + regalo.getIdr());
-                System.out.printf("Precio: %.2f", regalo.getPrecio());
-                System.out.println("Item: " + regalo.getItem());
+            for(Persona persona : listaPersonas.getListaPersonas()){
+                System.out.println(">>> ID Persona: " + persona.getIdp() + " <<<");
+                System.out.println("Alias: " + persona.getAlias());
+                System.out.printf("Presupuesto: %.2f \n", persona.getPresupuesto());
+                System.out.println("Regalos:");
+                for (Regalo regalo : persona.getListaRegalos().getListaRegalos()){
+                    System.out.println(">> ID Regalo: " + regalo.getIdr() + " <<");
+                    System.out.printf("Precio: %.2f \n", regalo.getPrecio());
+                    System.out.println("Item: " + regalo.getItem());
+                }
+                System.out.println(" ");
+            }
+            Scan.waitForInput();
+        } else {
+            System.err.println("No hay personas que mostrar");
+            System.out.println(" ");
+        }
+    }
+
+    public static void printPersonas (ListaPersonas listaPersonas) {
+        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
+            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
+            System.out.printf("- Presupuesto: %s \n", listaPersonas.getListaPersonas().get(i).getPresupuesto());
+            System.out.println(" ");
+        }
+    }
+
+    public static void printPersonasRegalos (ListaPersonas listaPersonas) {
+        int contador;
+
+        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
+            contador = 1;
+            System.out.println("=== " + (i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias() + " ===");
+            for (Regalo regalo : listaPersonas.getListaPersonas().get(i).getListaRegalos().getListaRegalos()) {
+                System.out.printf(contador + "." +" %s: %.2f€ \n", regalo.getItem(), regalo.getPrecio());
+                contador++;
             }
             System.out.println(" ");
         }

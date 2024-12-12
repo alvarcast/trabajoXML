@@ -4,6 +4,7 @@ import _1DataTier.ListaPersonas;
 import _1DataTier.ListaRegalos;
 import _1DataTier.Persona;
 import _1DataTier.Regalo;
+import _3PresentationTier.Printer;
 import _3PresentationTier.Scan;
 
 public class MenuCtrl {
@@ -86,7 +87,12 @@ public class MenuCtrl {
         for (int i = 0; i < countP; i++) {
             System.out.println("=== Nueva persona " + (i + 1) + " ===");
 
-            idp = listaPersonas.getListaPersonas().getLast().getIdp() + 1;
+            if (!listaPersonas.getListaPersonas().isEmpty()) {
+                idp = listaPersonas.getListaPersonas().getLast().getIdp() + 1;
+            } else {
+                idp = 1;
+            }
+
             alias = Scan.scanText("Alias: ", 20);
             presupuesto = Scan.scanDouble("Presupuesto para " + alias + ":");
 
@@ -123,7 +129,7 @@ public class MenuCtrl {
 
         int countR;
 
-        countR = Scan.scanInt("¿Cuántas regalos quieres agregar a " + alias);
+        countR = Scan.scanInt("¿Cuántos regalos quieres agregar a " + alias + "?");
 
         for (int i = 0; i < countR; i++){
             System.out.println("=== Nuevo regalo " + (i + 1) + " ===");
@@ -147,23 +153,30 @@ public class MenuCtrl {
 
         int pid;
 
-        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+
+            Printer.printPersonas(listaPersonas);
+
+            System.out.println("¿A qué persona quieres añadir un regalo (ID)?");
+
+            pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
+
+            listaRegalos = createNewRegalo(listaPersonas.getListaPersonas().get(pid).getAlias());
+
+            for (Regalo regalo : listaRegalos.getListaRegalos()){
+                if (listaRegalos.getListaRegalos().size() > 1) {
+                    regalo.setIdr(listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().getLast().getIdr() + 1);
+                } else {
+                    regalo.setIdr(1);
+                }
+                listaPersonas.getListaPersonas().get(pid).getListaRegalos().add(regalo);
+            }
+
+            CRUD.write(listaPersonas);
+        } else {
+            System.err.println("No se pueden añadir regalos porque no hay personas en la lista");
+            System.out.println(" ");
         }
-
-        System.out.println(" ");
-        System.out.println("¿A qué persona quieres añadir un regalo?");
-
-        pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
-
-        listaRegalos = createNewRegalo(listaPersonas.getListaPersonas().get(pid).getAlias());
-
-        for (Regalo regalo : listaRegalos.getListaRegalos()){
-            regalo.setIdr(listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().getLast().getIdr() + 1);
-            listaPersonas.getListaPersonas().get(pid).getListaRegalos().add(regalo);
-        }
-
-        CRUD.write(listaPersonas);
     }
 
     public static void editPersona(ListaPersonas listaPersonas){
@@ -172,35 +185,36 @@ public class MenuCtrl {
 
         String newVal;
 
-        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
-            System.out.printf("Presupuesto: %s \n", listaPersonas.getListaPersonas().get(i).getPresupuesto());
-            System.out.println(" ");
-        }
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+            Printer.printPersonas(listaPersonas);
 
-        System.out.println("¿Qué persona quieres editar?");
+            System.out.println("¿Qué persona quieres editar (ID)?");
 
-        pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
+            pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
 
-        System.out.printf("¿Qué quieres editar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
-        opcion = Scan.scanInt("""
+            System.out.printf("¿Qué quieres editar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
+            opcion = Scan.scanInt("""
                 1. Alias
                 2. Presupuesto
                 """, 1, 2
-        );
+            );
 
-        switch (opcion) {
-            case 1 -> {
-                newVal = Scan.scanText("Nuevo alias: ", 20);
-                listaPersonas.getListaPersonas().get(pid).setAlias(newVal);
+            switch (opcion) {
+                case 1 -> {
+                    newVal = Scan.scanText("Nuevo alias: ", 20);
+                    listaPersonas.getListaPersonas().get(pid).setAlias(newVal);
+                }
+                case 2 -> {
+                    newVal = String.valueOf(Scan.scanDouble("Nuevo presupuesto: "));
+                    listaPersonas.getListaPersonas().get(pid).setPresupuesto(Double.parseDouble(newVal));
+                }
             }
-            case 2 -> {
-                newVal = String.valueOf(Scan.scanDouble("Nuevo presupuesto: "));
-                listaPersonas.getListaPersonas().get(pid).setPresupuesto(Double.parseDouble(newVal));
-            }
+
+            CRUD.write(listaPersonas);
+        } else {
+            System.err.println("No hay personas que editar");
+            System.out.println(" ");
         }
-
-        CRUD.write(listaPersonas);
     }
 
     public static void editRegalo(ListaPersonas listaPersonas){
@@ -208,51 +222,53 @@ public class MenuCtrl {
         int rid;
 
         int opcion;
-        int contador;
 
         String newVal;
 
-        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            contador = 1;
-            System.out.println("=== " + (i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias() + " ===");
-            for (Regalo regalo : listaPersonas.getListaPersonas().get(i).getListaRegalos().getListaRegalos()) {
-                System.out.printf(contador + "." +" %s: %.2f€ \n", regalo.getItem(), regalo.getPrecio());
-                contador++;
-            }
-            System.out.println(" ");
-        }
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+            Printer.printPersonasRegalos(listaPersonas);
 
-        System.out.println("¿De qué persona quieres editar sus regalos ?");
+            System.out.println("¿De qué persona quieres editar sus regalos (ID)?");
 
-        pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
+            pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
 
-        System.out.printf("¿Qué regalo quieres editar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
-        rid = Scan.scanInt("",
-                1, listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().size()
-        ) - 1;
+            if (!listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().isEmpty()) {
+                System.out.printf("¿Qué regalo quieres editar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
+                rid = Scan.scanInt("",
+                        1, listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().size()
+                ) - 1;
 
-        System.out.printf("¿Y qué quieres editar de '%s'? \n",
-                listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).getItem()
-        );
+                System.out.printf("¿Y qué quieres editar de '%s'? \n",
+                        listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).getItem()
+                );
 
-        opcion = Scan.scanInt("""
+                opcion = Scan.scanInt("""
                 1. Cambiar nombre del item
                 2. Precio
                 """, 1, 2
-        );
+                );
 
-        switch (opcion) {
-            case 1 -> {
-                newVal = Scan.scanText("Nuevo nombre del item: ", 20);
-                listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).setItem(newVal);
+                switch (opcion) {
+                    case 1 -> {
+                        newVal = Scan.scanText("Nuevo nombre del item: ", 20);
+                        listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).setItem(newVal);
+                    }
+                    case 2 -> {
+                        newVal = String.valueOf(Scan.scanDouble("Nuevo precio: "));
+                        listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).setPrecio(Double.parseDouble(newVal));
+                    }
+                }
+
+                CRUD.write(listaPersonas);
+            } else {
+                System.err.println("Esta persona no tiene regalos asociados");
+                System.out.println(" ");
             }
-            case 2 -> {
-                newVal = String.valueOf(Scan.scanDouble("Nuevo precio: "));
-                listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).setPrecio(Double.parseDouble(newVal));
-            }
+
+        } else {
+            System.err.println("No hay regalos que editar porque no hay personas en la lista");
+            System.out.println(" ");
         }
-
-        CRUD.write(listaPersonas);
     }
 
     public static void editPresupuestoGeneral (ListaPersonas listaPersonas) {
@@ -269,25 +285,32 @@ public class MenuCtrl {
         int pid;
         int opcion;
 
-        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
-            System.out.printf("Presupuesto: %s \n", listaPersonas.getListaPersonas().get(i).getPresupuesto());
-        }
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+            Printer.printPersonas(listaPersonas);
 
-        System.out.println("¿Qué persona quieres eliminar?");
+            System.out.println("¿Qué persona quieres eliminar (ID)?");
 
-        pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
+            pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
 
-        System.out.printf("¿Estas seguro de que quieres eliminar a %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
-        opcion = Scan.scanInt("""
+            System.out.printf("¿Estas seguro de que quieres eliminar a %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
+            opcion = Scan.scanInt("""
                 1. Sí
                 2. Cancelar
                 """, 1, 2
-        );
+            );
 
-        if (opcion == 1) {
-            listaPersonas.getListaPersonas().remove(pid);
-            CRUD.write(listaPersonas);
+            if (opcion == 1) {
+                listaPersonas.getListaPersonas().remove(pid);
+                CRUD.write(listaPersonas);
+            } else {
+                System.out.println("Eliminación cancelada");
+            }
+
+            System.out.println(" ");
+
+        } else {
+            System.err.println("No hay personas que eliminar");
+            System.out.println(" ");
         }
     }
 
@@ -297,36 +320,46 @@ public class MenuCtrl {
 
         int opcion;
 
-        for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
-            System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
-            for (Regalo regalo : listaPersonas.getListaPersonas().get(i).getListaRegalos().getListaRegalos()) {
-                System.out.printf("· %s: %.2f€ \n", regalo.getItem(), regalo.getPrecio());
-            }
-        }
+        if (!listaPersonas.getListaPersonas().isEmpty()) {
+            Printer.printPersonasRegalos(listaPersonas);
 
-        System.out.println("¿De qué persona quieres eliminar un regalos ?");
+            System.out.println("¿De qué persona quieres eliminar un regalo (ID)?");
 
-        pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
+            pid = Scan.scanInt("", 1, listaPersonas.getListaPersonas().size()) - 1;
 
-        System.out.printf("¿Qué regalo quieres eliminar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
-        rid = Scan.scanInt("",
-                1, listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().size()
-        ) - 1;
+            if (!listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().isEmpty()) {
+                System.out.printf("¿Qué regalo quieres eliminar de %s? \n", listaPersonas.getListaPersonas().get(pid).getAlias());
+                rid = Scan.scanInt("",
+                        1, listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().size()
+                ) - 1;
 
-        System.out.printf("¿Estas seguro de que quieres eliminar el regalo '%s' de %s \n?",
-                listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).getItem(),
-                listaPersonas.getListaPersonas().get(pid).getAlias()
-        );
+                System.out.printf("¿Estas seguro de que quieres eliminar el regalo '%s' de %s? \n",
+                        listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().get(rid).getItem(),
+                        listaPersonas.getListaPersonas().get(pid).getAlias()
+                );
 
-        opcion = Scan.scanInt("""
+                opcion = Scan.scanInt("""
                 1. Sí
                 2. Cancelar
                 """, 1, 2
-        );
+                );
 
-        if (opcion == 1) {
-            listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().remove(rid);
-            CRUD.write(listaPersonas);
+                if (opcion == 1) {
+                    listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().remove(rid);
+                    CRUD.write(listaPersonas);
+                } else {
+                    System.out.println("Eliminación cancelada");
+                }
+
+                System.out.println(" ");
+            } else {
+                System.err.println("Esta persona no tiene regalos asociados");
+                System.out.println(" ");
+            }
+
+        } else {
+            System.err.println("No hay regalos que eliminar porque no hay personas en la lista");
+            System.out.println(" ");
         }
     }
 }

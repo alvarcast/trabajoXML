@@ -14,6 +14,8 @@ public class Menu {
 
         int opcion;
 
+        String warn;
+
         System.out.println("¡Bienvenido al programa para hacer listas de regalos!");
         System.out.println(" ");
 
@@ -27,19 +29,30 @@ public class Menu {
             System.out.println(" ");
         }
 
-        do {
-            GetStats.checkPresupuesto(listaPersonas);
+        if (listaPersonas == null) {
+            listaPersonas = new ListaPersonas();
+        }
 
-            opcion = Scan.scanInt("""
+        do {
+            if (GetStats.checkPresupuesto(listaPersonas, true)) {
+                warn = "!!!";
+            } else {
+                warn = "";
+            }
+
+            System.out.printf("""
                 ¿Qué quieres hacer?
                 1. Añadir algo
                 2. Editar algo
                 3. Borrar algo
                 4. Mostrar lista
                 5. Ver estadísticas del xml
-                6. Salir
-                """, 1, 6
+                6. Avisos %s
+                7. Salir
+                """, warn
             );
+
+            opcion = Scan.scanInt("", 1, 7);
 
             switch (opcion) {
                 case 1 -> addMenu(listaPersonas);
@@ -47,9 +60,10 @@ public class Menu {
                 case 3 -> deleteMenu(listaPersonas);
                 case 4 -> Printer.printList(listaPersonas);
                 case 5 -> GetStats.nodeStats(listaPersonas);
-                case 6 -> System.out.println("Saliendo del programa...");
+                case 6 -> GetStats.checkPresupuesto(listaPersonas, false);
+                case 7 -> System.out.println("Saliendo del programa...");
             }
-        } while (opcion != 6);
+        } while (opcion != 7);
     }
 
     public static void addMenu(ListaPersonas listaPersonas){
@@ -76,7 +90,7 @@ public class Menu {
                 ¿Qué quieres hacer?
                 1. Editar persona
                 2. Editar regalo
-                3. Editar presupuesto general
+                3. Editar presupuesto total
                 4. Atrás
                 """, 1, 4
         );

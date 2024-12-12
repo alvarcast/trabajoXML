@@ -11,6 +11,8 @@ public class Scan {
         boolean out = false;
         int data = 0;
 
+        int max = 10;
+
         do {
             System.out.println(txt);
 
@@ -18,6 +20,8 @@ public class Scan {
                 data = scn.nextInt();
                 if (data < 0){
                     System.err.println("Por favor, introduzca un valor positivo");
+                } else if (data > max) {
+                    System.err.println("El máximo permitido es de " + max);
                 } else {
                     out = true;
                 }
