@@ -16,7 +16,7 @@ public class Printer {
         for(Persona persona : listaPersonas.getListaPersonas()){
             System.out.println("ID Persona: " + persona.getIdp());
             System.out.println("Alias: " + persona.getAlias());
-            System.out.printf("Presupuesto: %.2f", persona.getPresupuesto());
+            System.out.printf("Presupuesto: %.2f \n", persona.getPresupuesto());
             System.out.println("Regalos:");
             for (Regalo regalo : persona.getListaRegalos().getListaRegalos()){
                 System.out.println("ID Regalo: " + regalo.getIdr());

@@ -1,6 +1,7 @@
 package _2BusinessTier;
 
 import _1DataTier.ListaPersonas;
+import _1DataTier.ListaRegalos;
 import _1DataTier.Persona;
 import _1DataTier.Regalo;
 
@@ -8,10 +9,7 @@ import java.util.ArrayList;
 
 public class GetStats {
 
-    public static void getStats () {
-
-    }
-
+    // No funciona correctamente (concretamente la última comprobación)
     public static void checkPresupuesto (ListaPersonas listaPersonas) {
         ArrayList<Persona> conRegalosPasados = new ArrayList<Persona>();
         ArrayList<Double> listaPreciosTotalesPasados = new ArrayList<Double>();
@@ -80,6 +78,51 @@ public class GetStats {
                         """, p.getAlias(), p.getPresupuesto(), p.getAlias(), listaPreciosTotalesPasados.get(i), (listaPreciosTotalesPasados.get(i) - p.getPresupuesto())
                 );
             }
+        }
+
+        System.out.println(" ");
+    }
+
+    public static void nodeStats (ListaPersonas listaPersonas) {
+        int countNodos = 0;
+        int countNiveles = 1; // El número mínimo de niveles es 1 (el raíz)
+
+        int countNodosDos = 0;
+        int countNodosTres = 0;
+        int countNodosCuatro = 0;
+
+        for (Persona persona : listaPersonas.getListaPersonas()) {
+            countNodos++;
+            countNodosDos++;
+
+            if (countNiveles < 2) {
+                countNiveles ++;
+            }
+
+            for (Regalo regalo : persona.getListaRegalos().getListaRegalos()) {
+                countNodos += 3;
+                countNodosCuatro += 2;
+                countNodosTres++;
+
+                if (countNiveles < 4) {
+                    countNiveles +=2;
+                }
+            }
+        }
+
+        System.out.printf("- El documento tiene %s niveles \n", countNiveles);
+        System.out.printf("- El nivel 1 tiene %s nodos (total de nodos) \n", countNodos);
+
+        if (countNiveles >= 2) {
+            System.out.printf("- El nivel 2 tiene %s nodos \n", countNodosDos);
+        }
+
+        if (countNiveles == 4) {
+            System.out.printf("""
+                    · El nivel 3 tiene %s nodos
+                    · El nivel 4 tiene %s nodos
+                    """, countNodosTres, countNodosCuatro
+            );
         }
 
         System.out.println(" ");

@@ -86,17 +86,24 @@ public class Scan {
         return data;
     }
 
-    //Metodo para pedir una cadena
-    public static String scanText(String txt){
+    //Metodo para pedir una cadena con límite
+    public static String scanText(String txt, int limit){
         Scanner scn = new Scanner(System.in);
         String data = "";
+        boolean exceed = false;
 
-        while (data.isEmpty()){
+        while (data.isEmpty() || exceed){
             System.out.println(txt);
             data = scn.nextLine();
 
             if (data.isEmpty()){
                 System.err.println("Por favor, rellene la cadena");
+            }
+
+            exceed = data.length() > limit;
+
+            if (exceed) {
+                System.err.printf("La cadena es demasiado larga, el límite de caracteres es de %s \n", limit);
             }
         }
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Menu {
 
-    public static void menu() throws Exception {
+    public static void menu() {
         ListaPersonas listaPersonas;
 
         int opcion;
@@ -43,10 +43,10 @@ public class Menu {
 
             switch (opcion) {
                 case 1 -> addMenu(listaPersonas);
-                case 2 -> {}
-                case 3 -> {}
-                case 4 -> {}
-                case 5 -> Printer.printList(listaPersonas);
+                case 2 -> editMenu(listaPersonas);
+                case 3 -> deleteMenu(listaPersonas);
+                case 4 -> Printer.printList(listaPersonas);
+                case 5 -> GetStats.nodeStats(listaPersonas);
                 case 6 -> System.out.println("Saliendo del programa...");
             }
         } while (opcion != 6);
@@ -66,6 +66,42 @@ public class Menu {
         switch (opcion) {
             case 1 -> MenuCtrl.createNewPersona(listaPersonas);
             case 2 -> MenuCtrl.addRegalo(listaPersonas);
+        }
+    }
+
+    public static void editMenu(ListaPersonas listaPersonas){
+        int opcion;
+
+        opcion = Scan.scanInt("""
+                ¿Qué quieres hacer?
+                1. Editar persona
+                2. Editar regalo
+                3. Editar presupuesto general
+                4. Atrás
+                """, 1, 4
+        );
+
+        switch (opcion) {
+            case 1 -> MenuCtrl.editPersona(listaPersonas);
+            case 2 -> MenuCtrl.editRegalo(listaPersonas);
+            case 3 -> MenuCtrl.editPresupuestoGeneral(listaPersonas);
+        }
+    }
+
+    public static void deleteMenu(ListaPersonas listaPersonas){
+        int opcion;
+
+        opcion = Scan.scanInt("""
+                ¿Qué quieres hacer?
+                1. Borrar persona
+                2. Borrar regalo
+                3. Atrás
+                """, 1, 3
+        );
+
+        switch (opcion) {
+            case 1 -> MenuCtrl.deletePersona(listaPersonas);
+            case 2 -> MenuCtrl.deleteRegalo(listaPersonas);
         }
     }
 }

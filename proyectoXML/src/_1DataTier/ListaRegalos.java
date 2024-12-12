@@ -17,23 +17,4 @@ public class ListaRegalos {
         listaRegalos.add(r);
     }
 
-    public void rm(Regalo r) {
-        listaRegalos.remove(r);
-    }
-
-    public Regalo find(int n) {
-        Regalo r = null;
-        int c = 0;
-        boolean found = false;
-
-        while (c < listaRegalos.size() && !found) {
-            r = listaRegalos.get(c);
-            if (r.getIdr() == n) {
-                found = true;
-            } else {
-                c++;
-            }
-        }
-        return r;
-    }
 }

@@ -29,24 +29,4 @@ public class ListaPersonas {
         listaPersonas.add(p);
     }
 
-    public void rm(Persona p){
-        listaPersonas.remove(p);
-    }
-
-    public Persona find(int n){
-        Persona p = null;
-        int c = 0;
-        boolean found = false;
-
-        while (c < listaPersonas.size() && !found){
-            p = listaPersonas.get(c);
-            if (p.getIdp() == n){
-                found = true;
-            } else {
-                c++;
-            }
-        }
-        
-        return p;
-    }
 }

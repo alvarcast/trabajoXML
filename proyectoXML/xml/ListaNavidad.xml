@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<listaRegalos presupuesto_total="500.0">
+<listaRegalos presupuesto_total="1000.0">
     <persona alias="Mamá" idp="1" presupuesto="120.0">
         <regalo idr="1">
             <item>Chaqueta</item>
@@ -16,7 +16,7 @@
             <precio>70.0</precio>
         </regalo>
     </persona>
-    <persona alias="Abuela" idp="3" presupuesto="90.0">
+    <persona alias="Abuela" idp="3" presupuesto="100.0">
         <regalo idr="1">
             <item>Videojuego</item>
             <precio>20.0</precio>
@@ -26,18 +26,18 @@
             <precio>40.0</precio>
         </regalo>
         <regalo idr="3">
-            <item>Papas</item>
+            <item>Coca-cola</item>
             <precio>30.1</precio>
         </regalo>
     </persona>
-    <persona alias="Abuelo" idp="4" presupuesto="200.0">
+    <persona alias="Abuelito" idp="4" presupuesto="130.0">
         <regalo idr="1">
             <item>Monitor</item>
             <precio>130.0</precio>
         </regalo>
         <regalo idr="2">
             <item>Disco SSD</item>
-            <precio>40.0</precio>
+            <precio>90.0</precio>
         </regalo>
         <regalo idr="3">
             <item>Batería</item>
@@ -47,7 +47,7 @@
     <persona alias="Paquito" idp="5" presupuesto="200.0">
         <regalo idr="1">
             <item>VR</item>
-            <precio>300.0</precio>
+            <precio>100.0</precio>
         </regalo>
     </persona>
 </listaRegalos>
