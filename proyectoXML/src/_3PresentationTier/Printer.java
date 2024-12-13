@@ -8,6 +8,7 @@ public class Printer {
 
     public static void printList(ListaPersonas listaPersonas) {
 
+        // Imprime todas las cosas del xml si la lista de personas no esta vacia
         if (!listaPersonas.getListaPersonas().isEmpty()) {
             System.out.println("=========================================");
             System.out.println("Presupuesto total: " + listaPersonas.getPresupuesto());
@@ -33,6 +34,7 @@ public class Printer {
         }
     }
 
+    // Imprime todas las personas y sus presupuestos
     public static void printPersonas (ListaPersonas listaPersonas) {
         for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
             System.out.println((i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias());
@@ -41,12 +43,14 @@ public class Printer {
         }
     }
 
+    // Imprime todas las personas y sus presupuestos, junto con los regalos y sus precion
     public static void printPersonasRegalos (ListaPersonas listaPersonas) {
         int contador;
 
         for (int i = 0; i < listaPersonas.getListaPersonas().size(); i++) {
             contador = 1;
             System.out.println("=== " + (i + 1) + ". " + listaPersonas.getListaPersonas().get(i).getAlias() + " ===");
+            System.out.printf("- Presupuesto: %s \n", listaPersonas.getListaPersonas().get(i).getPresupuesto());
             for (Regalo regalo : listaPersonas.getListaPersonas().get(i).getListaRegalos().getListaRegalos()) {
                 System.out.printf(contador + "." +" %s: %.2f€ \n", regalo.getItem(), regalo.getPrecio());
                 contador++;

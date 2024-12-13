@@ -1,8 +1,9 @@
 package _1DataTier;
 
+// Clase persona para los nodos persona
 public class Persona {
 
-    private int idp;
+    private final int idp;
     private String alias;
     private double presupuesto;
     private ListaRegalos listaRegalos;
@@ -16,10 +17,6 @@ public class Persona {
 
     public int getIdp() {
         return idp;
-    }
-
-    public void setIdp(int idp) {
-        this.idp = idp;
     }
 
     public String getAlias() {

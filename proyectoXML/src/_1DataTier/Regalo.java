@@ -1,5 +1,6 @@
 package _1DataTier;
 
+// Clase regalo para los nodos regalo
 public class Regalo {
 
     private int idr;

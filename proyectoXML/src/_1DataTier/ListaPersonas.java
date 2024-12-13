@@ -2,9 +2,12 @@ package _1DataTier;
 
 import java.util.ArrayList;
 
+// Clase para guardar los nodos persona en una lista
 public class ListaPersonas {
 
     private final ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+
+    // Incluye el presupuesto total ya que es un atributo de la lista de navidad (lista personas)
     private double presupuesto;
 
     public ListaPersonas () {}

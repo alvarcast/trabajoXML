@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Menu {
 
+    // MEnú principal
     public static void menu() {
         ListaPersonas listaPersonas;
 
@@ -19,6 +20,7 @@ public class Menu {
         System.out.println("¡Bienvenido al programa para hacer listas de regalos!");
         System.out.println(" ");
 
+        // Este try-catch comprueba si existe el fichero, si no existe, crea uno nuevo
         try {
             listaPersonas = CRUD.read();
         } catch (IOException e) {
@@ -29,11 +31,15 @@ public class Menu {
             System.out.println(" ");
         }
 
+        // Esto evita que la lista sea nula al no haber añadido nada
         if (listaPersonas == null) {
             listaPersonas = new ListaPersonas();
         }
 
+        // Menú principal
         do {
+
+            // Comprueba si hay algún aviso y cambia warn para que se vea visualmente que hay avisos
             if (GetStats.checkPresupuesto(listaPersonas, true)) {
                 warn = "!!!";
             } else {
@@ -66,6 +72,7 @@ public class Menu {
         } while (opcion != 7);
     }
 
+    // Menú para añadir personas o regalos
     public static void addMenu(ListaPersonas listaPersonas){
         int opcion;
 
@@ -83,6 +90,7 @@ public class Menu {
         }
     }
 
+    // Menú para editar personas o regalos
     public static void editMenu(ListaPersonas listaPersonas){
         int opcion;
 
@@ -102,6 +110,7 @@ public class Menu {
         }
     }
 
+    // Menú para borrar personas o regalos
     public static void deleteMenu(ListaPersonas listaPersonas){
         int opcion;
 

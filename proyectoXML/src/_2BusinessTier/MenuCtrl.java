@@ -8,7 +8,9 @@ import _3PresentationTier.Printer;
 import _3PresentationTier.Scan;
 
 public class MenuCtrl {
+    // La mayoría llamar a write() de CRUD para reescribir el fichero después de los cambios
 
+    // Función para hacer la lista y un fichero nuevo
     public static ListaPersonas createNew() {
 
         ListaPersonas listaPersonas;
@@ -69,6 +71,7 @@ public class MenuCtrl {
         return listaPersonas;
     }
 
+    // Método para crear y añadir una persona nueva
     public static void createNewPersona(ListaPersonas listaPersonas){
         ListaRegalos listaRegalos;
 
@@ -118,6 +121,7 @@ public class MenuCtrl {
         CRUD.write(listaPersonas);
     }
 
+    // Función para rellenar una lista de regalos
     public static ListaRegalos createNewRegalo(String alias){
         ListaRegalos listaRegalos = new ListaRegalos();
 
@@ -148,6 +152,7 @@ public class MenuCtrl {
         return listaRegalos;
     }
 
+    // Método para crear y añadir un regalo nuevo
     public static void addRegalo (ListaPersonas listaPersonas) {
         ListaRegalos listaRegalos;
 
@@ -179,6 +184,7 @@ public class MenuCtrl {
         }
     }
 
+    // Método para editar una persona
     public static void editPersona(ListaPersonas listaPersonas){
         int pid;
         int opcion;
@@ -217,6 +223,7 @@ public class MenuCtrl {
         }
     }
 
+    // Método para editar un regalo
     public static void editRegalo(ListaPersonas listaPersonas){
         int pid;
         int rid;
@@ -271,6 +278,7 @@ public class MenuCtrl {
         }
     }
 
+    // Método para editar el presupuesto total
     public static void editPresupuestoGeneral (ListaPersonas listaPersonas) {
         double newVal;
 
@@ -281,6 +289,7 @@ public class MenuCtrl {
         CRUD.write(listaPersonas);
     }
 
+    // Método para eliminar una persona
     public static void deletePersona(ListaPersonas listaPersonas){
         int pid;
         int opcion;
@@ -314,6 +323,7 @@ public class MenuCtrl {
         }
     }
 
+    // Método para eliminar un regalo
     public static void deleteRegalo (ListaPersonas listaPersonas) {
         int pid;
         int rid;
