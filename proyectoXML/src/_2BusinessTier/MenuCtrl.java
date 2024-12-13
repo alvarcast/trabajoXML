@@ -372,4 +372,79 @@ public class MenuCtrl {
             System.out.println(" ");
         }
     }
+
+    // Método para buscar una persona
+    public static void findPersona (ListaPersonas listaPersonas) {
+        boolean results = false;
+
+        String alias;
+
+        int c = 1;
+
+        alias = Scan.scanText("Introduzca el alias de la persona que quieres buscar: ", 20);
+
+        System.out.println("=== Resultado/s ===");
+        System.out.println(" ");
+
+        for (Persona persona : listaPersonas.getListaPersonas()) {
+            if (persona.getAlias().toLowerCase().contains(alias.toLowerCase())) {
+                System.out.println("<< Resultado " + c + " >>");
+                System.out.printf("- Persona: %s \n", persona.getAlias());
+                System.out.printf("- Su presupuesto: %s\n", persona.getPresupuesto());
+                System.out.println(" ");
+
+                c++;
+
+                if (!results) {
+                    results = true;
+                }
+            }
+        }
+
+        if (!results) {
+            System.out.println("No se ha encontrado a '" + alias + "'");
+        }
+
+        System.out.println(" ");
+        Scan.waitForInput();
+    }
+
+    // Método para buscar un regalo
+    public static void findRegalo (ListaPersonas listaPersonas) {
+        boolean results = false;
+
+        String item;
+
+        int c = 1;
+
+        item = Scan.scanText("Introduzca el nombre del regalo que quieres buscar: ", 20);
+
+        System.out.println("=== Resultado/s ===");
+        System.out.println(" ");
+
+        for (Persona persona : listaPersonas.getListaPersonas()) {
+            for (Regalo regalo : persona.getListaRegalos().getListaRegalos()) {
+                if (regalo.getItem().toLowerCase().contains(item.toLowerCase())) {
+                    System.out.println("<< Resultado " + c + " >>");
+                    System.out.printf("- Regalo de: %s \n", persona.getAlias());
+                    System.out.printf("- Regalo: %s \n", regalo.getItem());
+                    System.out.printf("- Su precio: %s\n", regalo.getPrecio());
+                    System.out.println(" ");
+
+                    c++;
+
+                    if (!results) {
+                        results = true;
+                    }
+                }
+            }
+        }
+
+        if (!results) {
+            System.out.println("No se ha encontrado el regalo '" + item + "'");
+        }
+
+        System.out.println(" ");
+        Scan.waitForInput();
+    }
 }

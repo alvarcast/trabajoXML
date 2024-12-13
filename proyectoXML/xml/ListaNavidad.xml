@@ -46,7 +46,7 @@
     </persona>
     <persona alias="María" idp="5" presupuesto="200.0">
         <regalo idr="1">
-            <item>Perfume</item>
+            <item>Teclado cuqui</item>
             <precio>120.0</precio>
         </regalo>
         <regalo idr="2">
@@ -54,7 +54,7 @@
             <precio>80.0</precio>
         </regalo>
     </persona>
-    <persona alias="Javier" idp="6" presupuesto="300.0">
+    <persona alias="Mar" idp="6" presupuesto="300.0">
         <regalo idr="1">
             <item>Consola portátil</item>
             <precio>250.0</precio>

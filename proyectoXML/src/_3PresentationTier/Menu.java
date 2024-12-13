@@ -51,25 +51,27 @@ public class Menu {
                 1. Añadir algo
                 2. Editar algo
                 3. Borrar algo
-                4. Mostrar lista
-                5. Ver estadísticas del xml
-                6. Avisos %s
-                7. Salir
+                4. Buscar algo
+                5. Mostrar lista
+                6. Ver estadísticas del xml
+                7. Avisos %s
+                8. Salir
                 """, warn
             );
 
-            opcion = Scan.scanInt("", 1, 7);
+            opcion = Scan.scanInt("", 1, 8);
 
             switch (opcion) {
                 case 1 -> addMenu(listaPersonas);
                 case 2 -> editMenu(listaPersonas);
                 case 3 -> deleteMenu(listaPersonas);
-                case 4 -> Printer.printList(listaPersonas);
-                case 5 -> GetStats.nodeStats(listaPersonas);
-                case 6 -> GetStats.checkPresupuesto(listaPersonas, false);
-                case 7 -> System.out.println("Saliendo del programa...");
+                case 4 -> searchMenu(listaPersonas);
+                case 5 -> Printer.printList(listaPersonas);
+                case 6 -> GetStats.nodeStats(listaPersonas);
+                case 7 -> GetStats.checkPresupuesto(listaPersonas, false);
+                case 8 -> System.out.println("Saliendo del programa...");
             }
-        } while (opcion != 7);
+        } while (opcion != 8);
     }
 
     // Menú para añadir personas o regalos
@@ -125,6 +127,24 @@ public class Menu {
         switch (opcion) {
             case 1 -> MenuCtrl.deletePersona(listaPersonas);
             case 2 -> MenuCtrl.deleteRegalo(listaPersonas);
+        }
+    }
+
+    // Menú para buscar una personas o un regalo
+    public static void searchMenu(ListaPersonas listaPersonas){
+        int opcion;
+
+        opcion = Scan.scanInt("""
+                ¿Qué quieres hacer?
+                1. Buscar persona
+                2. Buscar regalo
+                3. Atrás
+                """, 1, 3
+        );
+
+        switch (opcion) {
+            case 1 -> MenuCtrl.findPersona(listaPersonas);
+            case 2 -> MenuCtrl.findRegalo(listaPersonas);
         }
     }
 }
