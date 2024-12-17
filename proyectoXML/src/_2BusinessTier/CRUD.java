@@ -25,6 +25,7 @@ public class CRUD {
 
     // Variable estática de la ruta, para poder acceder a ella siempre
     private static final String path = "proyectoXML/xml/ListaNavidad.xml";
+    private static final String exportPath = "C:/xampp/htdocs/dashboard/listaNavidad/data/ListaNavidad.xml";
 
     // Función que lee el fichero y lo guarda en una lista de personas (listaNavidad)
     public static ListaPersonas read() throws IOException {
@@ -139,11 +140,11 @@ public class CRUD {
     }
 
     // Método para reescribie el fichero xml con una lista de personas
-    public static void write (ListaPersonas listaPersonas) {
+    public static void write (ListaPersonas listaPersonas, boolean export) {
         // Document y documentbuilders
         DocumentBuilderFactory factory;
         DocumentBuilder builder;
-        Document document = null;
+        Document document;
 
         // Transformers para concatenar todo bien
         TransformerFactory transformerFactory;
@@ -154,7 +155,7 @@ public class CRUD {
         StreamResult result;
 
         // Fichero
-        File file = null;
+        File file;
 
         // Elementos nuevos de los nodos persona y root
         Element root;
@@ -167,7 +168,12 @@ public class CRUD {
 
         // Intenta construir el documento (fichero)
         try {
-            file = new File(path);
+            if (!export) {
+                file = new File(path);
+            } else {
+                file = new File(exportPath);
+            }
+
             factory = DocumentBuilderFactory.newInstance();
             builder = factory.newDocumentBuilder();
             document = builder.newDocument();
@@ -220,7 +226,12 @@ public class CRUD {
             result = new StreamResult(file);
             transformer.transform(source, result);
 
-            System.out.println(">>> Cambios escritos correctamente <<<");
+            if (!export) {
+                System.out.println(">>> Cambios escritos correctamente <<<");
+            } else {
+                System.out.println(">>> Fichero exportado correctamente <<<");
+            }
+
             System.out.println(" ");
 
         } catch (Exception e) {

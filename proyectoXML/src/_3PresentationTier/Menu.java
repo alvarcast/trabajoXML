@@ -55,11 +55,12 @@ public class Menu {
                 5. Mostrar lista
                 6. Ver estadísticas del xml
                 7. Avisos %s
-                8. Salir
+                8. Exportar a html
+                9. Salir
                 """, warn
             );
 
-            opcion = Scan.scanInt("", 1, 8);
+            opcion = Scan.scanInt("", 1, 9);
 
             switch (opcion) {
                 case 1 -> addMenu(listaPersonas);
@@ -69,9 +70,13 @@ public class Menu {
                 case 5 -> Printer.printList(listaPersonas);
                 case 6 -> GetStats.nodeStats(listaPersonas);
                 case 7 -> GetStats.checkPresupuesto(listaPersonas, false);
-                case 8 -> System.out.println("Saliendo del programa...");
+                case 8 -> {
+                    CRUD.write(listaPersonas, true);
+                    MenuCtrl.openHTML();
+                }
+                case 9 -> System.out.println("Saliendo del programa...");
             }
-        } while (opcion != 8);
+        } while (opcion != 9);
     }
 
     // Menú para añadir personas o regalos

@@ -7,6 +7,11 @@ import _1DataTier.Regalo;
 import _3PresentationTier.Printer;
 import _3PresentationTier.Scan;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class MenuCtrl {
     // La mayoría llamar a write() de CRUD para reescribir el fichero después de los cambios
 
@@ -66,7 +71,7 @@ public class MenuCtrl {
             listaPersonas.add(persona);
         }
 
-        CRUD.write(listaPersonas);
+        CRUD.write(listaPersonas, false);
 
         return listaPersonas;
     }
@@ -118,7 +123,7 @@ public class MenuCtrl {
             listaPersonas.add(persona);
         }
 
-        CRUD.write(listaPersonas);
+        CRUD.write(listaPersonas, false);
     }
 
     // Función para rellenar una lista de regalos
@@ -169,7 +174,7 @@ public class MenuCtrl {
             listaRegalos = createNewRegalo(listaPersonas.getListaPersonas().get(pid).getAlias());
 
             for (Regalo regalo : listaRegalos.getListaRegalos()){
-                if (listaRegalos.getListaRegalos().size() > 1) {
+                if (listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().size() > 1) {
                     regalo.setIdr(listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().getLast().getIdr() + 1);
                 } else {
                     regalo.setIdr(1);
@@ -177,7 +182,7 @@ public class MenuCtrl {
                 listaPersonas.getListaPersonas().get(pid).getListaRegalos().add(regalo);
             }
 
-            CRUD.write(listaPersonas);
+            CRUD.write(listaPersonas, false);
         } else {
             System.err.println("No se pueden añadir regalos porque no hay personas en la lista");
             System.out.println(" ");
@@ -216,7 +221,7 @@ public class MenuCtrl {
                 }
             }
 
-            CRUD.write(listaPersonas);
+            CRUD.write(listaPersonas, false);
         } else {
             System.err.println("No hay personas que editar");
             System.out.println(" ");
@@ -266,7 +271,7 @@ public class MenuCtrl {
                     }
                 }
 
-                CRUD.write(listaPersonas);
+                CRUD.write(listaPersonas, false);
             } else {
                 System.err.println("Esta persona no tiene regalos asociados");
                 System.out.println(" ");
@@ -286,7 +291,7 @@ public class MenuCtrl {
 
         listaPersonas.setPresupuesto(newVal);
 
-        CRUD.write(listaPersonas);
+        CRUD.write(listaPersonas, false);
     }
 
     // Método para eliminar una persona
@@ -310,7 +315,7 @@ public class MenuCtrl {
 
             if (opcion == 1) {
                 listaPersonas.getListaPersonas().remove(pid);
-                CRUD.write(listaPersonas);
+                CRUD.write(listaPersonas, false);
             } else {
                 System.out.println("Eliminación cancelada");
             }
@@ -356,7 +361,7 @@ public class MenuCtrl {
 
                 if (opcion == 1) {
                     listaPersonas.getListaPersonas().get(pid).getListaRegalos().getListaRegalos().remove(rid);
-                    CRUD.write(listaPersonas);
+                    CRUD.write(listaPersonas, false);
                 } else {
                     System.out.println("Eliminación cancelada");
                 }
@@ -446,5 +451,16 @@ public class MenuCtrl {
 
         System.out.println(" ");
         Scan.waitForInput();
+    }
+
+    public static void openHTML() {
+        URI uri;
+
+        try {
+            uri = new URI("http://localhost/dashboard/listaNavidad/index.html");
+            Desktop.getDesktop().browse(uri);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 }

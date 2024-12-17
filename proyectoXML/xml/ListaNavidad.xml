@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <listaRegalos presupuesto_total="1500.0">
-    <persona alias="Ana" idp="1" presupuesto="150.0">
+    <persona alias="Ana" idp="1" presupuesto="200.0">
         <regalo idr="1">
             <item>Libro de cocina</item>
             <precio>50.0</precio>
@@ -9,7 +9,7 @@
             <item>Set de cuchillos</item>
             <precio>70.0</precio>
         </regalo>
-        <regalo idr="1">
+        <regalo idr="3">
             <item>Mochila</item>
             <precio>20.0</precio>
         </regalo>
